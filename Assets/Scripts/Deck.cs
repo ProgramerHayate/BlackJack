@@ -44,7 +44,6 @@ public class Deck : MonoBehaviour
             {
                 aux = 1;
             }
-
             if (aux > 10)
             {
                 values[i] = 10;
@@ -54,6 +53,11 @@ public class Deck : MonoBehaviour
             {
                 values[i] = aux;
                 
+            }
+
+            if (aux == 1)
+            {
+                values[i] = 11;
             }
             aux++;
         }
@@ -89,6 +93,9 @@ public class Deck : MonoBehaviour
             else
             {
                 i--;
+                
+                
+                
             }
             
 
@@ -106,6 +113,21 @@ public class Deck : MonoBehaviour
             /*TODO:
              * Si alguno de los dos obtiene Blackjack, termina el juego y mostramos mensaje
              */
+            CardHand jugador = player.GetComponent<CardHand>();
+            CardHand banca = dealer.GetComponent<CardHand>();
+            if (jugador.points.Equals(21))
+            {
+                hitButton.interactable = false;
+                stickButton.interactable = false;
+                finalMessage.text = "Gana el jugador";
+            }
+            
+            if (banca.points.Equals(21))
+            {
+                hitButton.interactable = false;
+                stickButton.interactable = false;
+                finalMessage.text = "Gana la banca";
+            }
         }
     }
 
