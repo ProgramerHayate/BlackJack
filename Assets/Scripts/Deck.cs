@@ -15,9 +15,10 @@ public class Deck : MonoBehaviour
     public Text probMessage3;
     public int[] values = new int[52];
     int cardIndex = 0;
-    public Sprite[] randFaces;
-    public int[] randValues;
     
+   
+
+
 
     private void Awake()
     {    
@@ -68,42 +69,27 @@ public class Deck : MonoBehaviour
 
     private void ShuffleCards()
     {
-        /*TODO:
-         * Barajar las cartas aleatoriamente.
-         * El método Random.Range(0,n), devuelve un valor entre 0 y n-1
-         * Si lo necesitas, puedes definir nuevos arrays.
-         */
+        int[] valuesAux = new int[52];
+        Sprite[] facesAux = new Sprite[52];
+        int aux = 0;
 
-        bool contains;
-        
-        for (int i = 0; i < faces.Length; i++)
+
+
+        for (int i = 0; i < 52; i++)
         {
-            contains = false;
-            int aux = Random.Range(0, 52);
-            foreach (Sprite a in randFaces)
+            int valor = 0;
+            while (valor == 0)
             {
-                if (a.Equals(faces[aux]))
-                {
-                    contains = true;
-                }
+                aux = Random.Range(0, 52);
+                valor = values[aux];
             }
-            if (!contains)
-            {
-                randFaces[i] = faces[aux];
-                randValues[i] = values[aux];
-            }
-            else
-            {
-                i--;
-                
-                
-                
-            }
-            
-
+            values[aux] = 0;
+            valuesAux[i] = valor;
+            facesAux[i] = faces[aux];
         }
-        faces = randFaces;
-        values = randValues;
+
+        values = valuesAux;
+        faces = facesAux;
     }
 
     void StartGame()
@@ -296,8 +282,8 @@ public class Deck : MonoBehaviour
         player.GetComponent<CardHand>().Clear();
         dealer.GetComponent<CardHand>().Clear();          
         cardIndex = 0;
-        /*ShuffleCards();
-        StartGame();*/
+        ShuffleCards();
+        StartGame();
     }
     
 }
