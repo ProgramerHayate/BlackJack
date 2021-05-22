@@ -13,8 +13,12 @@ public class Deck : MonoBehaviour
     public Text probMessage1;
     public Text probMessage2;
     public Text probMessage3;
+    public Text cantidadApostada;
+    public Text cantidadDinero;
     public int[] values = new int[52];
     int cardIndex = 0;
+    int dinero = 1000;
+    int apuesta = 0;
     
    
 
@@ -22,7 +26,9 @@ public class Deck : MonoBehaviour
 
     private void Awake()
     {    
-        InitCardValues();        
+        InitCardValues();
+        cantidadApostada.text ="Apusta: " + apuesta.ToString();
+        cantidadDinero.text = "Dinero actual: " + dinero.ToString();
 
     }
 
@@ -66,6 +72,34 @@ public class Deck : MonoBehaviour
         }
          
     }
+    public void Apostar()
+    {
+        if(dinero != 0)
+        {
+            apuesta = apuesta + 10;
+            dinero = dinero - 10;
+            cantidadApostada.text = "Apusta: " + apuesta.ToString();
+            cantidadDinero.text = "Dinero actual: " + dinero.ToString();
+
+        }
+    }
+    public void Retirar()
+    {
+        if(apuesta != 0)
+        {
+            apuesta = apuesta - 10;
+            dinero = dinero + 10;
+            cantidadApostada.text = "Apusta: " + apuesta.ToString();
+            cantidadDinero.text = "Dinero actual: " + dinero.ToString();
+        }
+    }
+    public void Cobrar()
+    {
+            dinero = dinero + (apuesta * 2);
+            apuesta = 0;
+        cantidadApostada.text = "Apusta: " + apuesta.ToString();
+        cantidadDinero.text = "Dinero actual: " + dinero.ToString();
+    }
 
     private void ShuffleCards()
     {
@@ -108,6 +142,7 @@ public class Deck : MonoBehaviour
                 hitButton.interactable = false;
                 stickButton.interactable = false;
                 finalMessage.text = "Gana el jugador";
+                Cobrar();
             }
             
             if (banca.points.Equals(21))
@@ -115,6 +150,9 @@ public class Deck : MonoBehaviour
                 hitButton.interactable = false;
                 stickButton.interactable = false;
                 finalMessage.text = "Gana la banca";
+                apuesta = 0;
+                cantidadApostada.text = "Apusta: " + apuesta.ToString();
+                
             }
         }
     }
@@ -235,6 +273,8 @@ public class Deck : MonoBehaviour
             hitButton.interactable = false;
             stickButton.interactable = false;
             finalMessage.text = "El jugador a perdido";
+            apuesta = 0;
+            cantidadApostada.text = "Apusta: " + apuesta.ToString();
         }
 
     }
@@ -265,11 +305,14 @@ public class Deck : MonoBehaviour
             hitButton.interactable = false;
             stickButton.interactable = false;
             finalMessage.text = "El jugador a ganado";
+            Cobrar();
         }
         else {
             hitButton.interactable = false;
             stickButton.interactable = false;
             finalMessage.text = "El dealer a ganado";
+            apuesta = 0;
+            cantidadApostada.text = "Apusta: " + apuesta.ToString();
         }
 
     }
@@ -280,10 +323,13 @@ public class Deck : MonoBehaviour
         stickButton.interactable = true;
         finalMessage.text = "";
         player.GetComponent<CardHand>().Clear();
-        dealer.GetComponent<CardHand>().Clear();          
+        dealer.GetComponent<CardHand>().Clear();
+        apuesta = 0;
+        cantidadApostada.text = "Apusta: " + apuesta.ToString();
         cardIndex = 0;
         ShuffleCards();
         StartGame();
+        
     }
     
 }
